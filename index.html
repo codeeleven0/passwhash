@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Passwhash Demo</title>
+    <style>*{font-family: monospace};</style>
+    <script src="enc.browser.js"></script>
+</head>
+<body>
+    <h1>Passwhash Demo</h1>
+    <hr>
+    <input type="password" value="" name="" id="secret" placeholder="Secret" oninput="document.getElementById('result').value = this.value && document.getElementById('tx').value ? passwhash(this.value, document.getElementById('tx').value) : 'enter text to continue';"><br><input onchange="document.getElementById('secret').type = this.checked ? 'text' : 'password'" type="checkbox" name="" id="sc">Show Secret<br><br>
+    <textarea name="" id="tx" rows="10" cols="32" placeholder="Input text" oninput="document.getElementById('result').value = this.value && document.getElementById('secret').value ? passwhash(this.value, document.getElementById('secret').value) : 'enter text to continue';"></textarea><br>
+    <textarea placeholder="enter text to continue" id="result" rows="10" cols="32" disabled></textarea>
+</body>
+</html>

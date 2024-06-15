@@ -1,6 +1,8 @@
 # Copyright (C) 2024 Code Eleven (Mustafa E / @codeeleven0)
 # Hashing secrets are not for decoding. It protects hash collision.
 import re
+chs = 32
+chss = chs - 1
 def isEven(x: int) -> bool:
     if (x % 2) == 0:
         return True
@@ -43,21 +45,21 @@ def hashit(x: str, secret: str) -> str:
     hashstr2: str = makeend(lastsplit)
     nstr: str = hashstr2.replace(" ", "*")
     n: str = ""
-    if len(nstr) < 15:
+    if len(nstr) < chss:
         n = nstr
     else:
-        for s in re.findall("."*(len(nstr)//15), nstr):
+        for s in re.findall("."*(len(nstr)//chss), nstr):
             a: list = [ord(c) for c in s]
             n += chr(sum(a) // len(a))
-    if len(n) < 15:
+    if len(n) < chss:
         try:
-            n = n.rjust(15, makeintegrity(calculateintegrity(splitstring(secret)))[-1])
+            n = n.ljust(chss,  makeintegrity(calculateintegrity(splitstring(secret)))[-1])
         except:
-            n = n.rjust(8, integritystr[-1])
-            n = n.rjust(13, integritystr[0])
-            n = n.rjust(15, integritystr[1])
-    if len(n) > 15:
-        n = re.findall("."*15, n)[0]
+            n = n.ljust(chs//2, integritystr[-1])
+            n = n.ljust(chs // 2 + chs // 3,  integritystr[0])
+            n = n.ljust(chss, integritystr[1])
+    if len(n) > chss:
+        n = re.findall("."*chss, n)[0]
     try:
         end: str = makeend(splitstring(n)[-1::-1]) + secret[-1]
     except:
@@ -73,9 +75,9 @@ def _passwhash(x: str, secret: str):
             try:
                 return hashit(x, "")
             except:
-                return 16*"0"
+                return chs*"0"
 def passwhash(x: str, secret: str) -> str:
     hr: str = _passwhash(x, secret).replace(" ","*").replace("\n","").replace("\0","").replace("\r","")
-    if len(hr) != 16:
-        hr = hr.rjust(16, hr[-1])
+    if len(hr) != chs:
+        hr = hr.ljust(chs, hr[-1])
     return hr

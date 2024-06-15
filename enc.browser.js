@@ -184,4 +184,3 @@ const passwhash = (x, secret) => {
     }
     return hr;
 }
-module.exports = {passwhash: passwhash}
