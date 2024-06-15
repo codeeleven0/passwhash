@@ -177,10 +177,21 @@ const _passwhash = (x, secret) => {
         }
     }
 }
-const passwhash = (x, secret) => {
+const __passwhash = (x, secret) => {
     hr = _passwhash(x, secret).replaceAll(" ","*").replaceAll("\n","").replaceAll("\r","").replaceAll("\0","");
     if(len(hr) != chs){
         hr = ljust(hr, chs, hr[hr.length-1]);
     }
     return hr;
+}
+const toHex = (s) => {
+    summ = "";
+    for(let i = 0; i < len(s); i++){
+        summ += div(s.charCodeAt(i), 1).toString(16);
+    }
+    return summ;
+}
+const passwhash = (data, secret) => {
+    hashs = toHex(__passwhash(data, secret));
+    return hashs;
 }

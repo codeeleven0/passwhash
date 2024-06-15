@@ -76,8 +76,14 @@ def _passwhash(x: str, secret: str):
                 return hashit(x, "")
             except:
                 return chs*"0"
-def passwhash(x: str, secret: str) -> str:
+def __passwhash(x: str, secret: str) -> str:
     hr: str = _passwhash(x, secret).replace(" ","*").replace("\n","").replace("\0","").replace("\r","")
     if len(hr) != chs:
         hr = hr.ljust(chs, hr[-1])
     return hr
+def toHex(s: str):
+    a = "".join([hex(ord(c) // 1).split("0x")[-1] for c in s])
+    return a
+def passwhash(data: str, secret: str):
+    hashs = toHex(__passwhash(data, secret))
+    return hashs
